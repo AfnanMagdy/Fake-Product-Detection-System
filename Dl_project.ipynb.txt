@@ -1,0 +1,1274 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "sd2i55HFe9pD"
+      },
+      "source": [
+        "## Load Dataset\n",
+        "Loading the raw scraped dataset from Excel file for initial inspection and preprocessing and removing duplicates."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "7G2rAaKMKAXc",
+        "outputId": "4ca052a3-b501-49ad-e9fa-4d0a2d2e90c4"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Mounted at /content/drive\n"
+          ]
+        }
+      ],
+      "source": [
+        "from google.colab import drive\n",
+        "drive.mount('/content/drive')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 141
+        },
+        "id": "lOgbrPMAK1Mk",
+        "outputId": "8fccdbb0-6a6c-4069-9704-6eb1fda5f119"
+      },
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "name 'pd' is not defined",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m/tmp/ipykernel_7609/371156553.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_excel\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'/content/Trusted & Fake.xlsx'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m: name 'pd' is not defined"
+          ]
+        }
+      ],
+      "source": [
+        "df = pd.read_excel('/content/Trusted & Fake.xlsx')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "background_save": true
+        },
+        "id": "ArPvFOxVNBAY",
+        "outputId": "7e233e55-5008-436d-a1db-6aa6d7653f6f"
+      },
+      "outputs": [
+        {
+          "ename": "FileNotFoundError",
+          "evalue": "[Errno 2] No such file or directory: '/content/drive/MyDrive/Trusted & Fake.xlsx'",
+          "output_type": "error",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mFileNotFoundError\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m/tmp/ipykernel_44205/3274220966.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mpandas\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mnumpy\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mdf\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_excel\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'/content/drive/MyDrive/Trusted & Fake.xlsx'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;31m# remove duplicates\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/io/excel/_base.py\u001b[0m in \u001b[0;36mread_excel\u001b[0;34m(io, sheet_name, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skiprows, nrows, na_values, keep_default_na, na_filter, verbose, parse_dates, date_parser, date_format, thousands, decimal, comment, skipfooter, storage_options, dtype_backend, engine_kwargs)\u001b[0m\n\u001b[1;32m    493\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0misinstance\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mio\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mExcelFile\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    494\u001b[0m         \u001b[0mshould_close\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;32mTrue\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 495\u001b[0;31m         io = ExcelFile(\n\u001b[0m\u001b[1;32m    496\u001b[0m             \u001b[0mio\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    497\u001b[0m             \u001b[0mstorage_options\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mstorage_options\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/io/excel/_base.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, path_or_buffer, engine, storage_options, engine_kwargs)\u001b[0m\n\u001b[1;32m   1548\u001b[0m                 \u001b[0mext\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m\"xls\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1549\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1550\u001b[0;31m                 ext = inspect_excel_format(\n\u001b[0m\u001b[1;32m   1551\u001b[0m                     \u001b[0mcontent_or_path\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mpath_or_buffer\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstorage_options\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mstorage_options\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1552\u001b[0m                 )\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/io/excel/_base.py\u001b[0m in \u001b[0;36minspect_excel_format\u001b[0;34m(content_or_path, storage_options)\u001b[0m\n\u001b[1;32m   1400\u001b[0m         \u001b[0mcontent_or_path\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mBytesIO\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mcontent_or_path\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1401\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1402\u001b[0;31m     with get_handle(\n\u001b[0m\u001b[1;32m   1403\u001b[0m         \u001b[0mcontent_or_path\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m\"rb\"\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mstorage_options\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mstorage_options\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mis_text\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mFalse\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1404\u001b[0m     ) as handle:\n",
+            "\u001b[0;32m/usr/local/lib/python3.12/dist-packages/pandas/io/common.py\u001b[0m in \u001b[0;36mget_handle\u001b[0;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)\u001b[0m\n\u001b[1;32m    880\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    881\u001b[0m             \u001b[0;31m# Binary mode\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 882\u001b[0;31m             \u001b[0mhandle\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mopen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mhandle\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mioargs\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmode\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    883\u001b[0m         \u001b[0mhandles\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mappend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mhandle\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    884\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mFileNotFoundError\u001b[0m: [Errno 2] No such file or directory: '/content/drive/MyDrive/Trusted & Fake.xlsx'"
+          ]
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "df = pd.read_excel('/content/drive/MyDrive/Trusted & Fake.xlsx')\n",
+        "\n",
+        "# remove duplicates\n",
+        "df = df.drop_duplicates().reset_index(drop=True)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": true,
+        "id": "1nk2i3pcLEKo"
+      },
+      "outputs": [],
+      "source": [
+        "print(df.head())\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "J1Sx0ZNJfORM"
+      },
+      "source": [
+        "##  Convert Data Types\n",
+        "Converting rating and review columns to numeric format and handling invalid values as NaN."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "P_5oyLbVLEnk"
+      },
+      "outputs": [],
+      "source": [
+        "df['seller_rating'] = pd.to_numeric(df['seller_rating'], errors='coerce')\n",
+        "df['product_rating'] = pd.to_numeric(df['product_rating'], errors='coerce')\n",
+        "df['seller_reviews_count'] = pd.to_numeric(df['seller_reviews_count'], errors='coerce')\n",
+        "df['discount_percent'] = pd.to_numeric(df['discount_percent'], errors='coerce')\n",
+        "df['discount_percent'] = df['discount_percent'].fillna(0)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_X6Ma-ZAfTSP"
+      },
+      "source": [
+        "## Handle Missing Values\n",
+        "Removing rows with missing values in critical numerical features required for labeling and modeling."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XxPVUNHrL4kA",
+        "outputId": "08c2c9a2-dbd4-4986-a005-15984de32f41"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "   id     source  label category  \\\n",
+            "0   1  amazon.eg    NaN   mobile   \n",
+            "1   2  amazon.eg    NaN   mobile   \n",
+            "2   3  amazon.eg    NaN   mobile   \n",
+            "3   4  amazon.eg    NaN   mobile   \n",
+            "4   5  amazon.eg    NaN   mobile   \n",
+            "\n",
+            "                                               title  \\\n",
+            "0  Apple iPhone 17 Pro Max (256 GB) - Cosmic Oran...   \n",
+            "1  Apple iPhone 16 (128 GB) - White with Face ID ...   \n",
+            "2     Apple iPhone 16 Pro (128 GB) - Desert Titanium   \n",
+            "3  Apple iPhone 16 Plus (128 GB) - Blue with Face...   \n",
+            "4  Apple iPhone 17 Pro (256 GB) - Deep Blue with ...   \n",
+            "\n",
+            "                                         description      price  \\\n",
+            "0  UNIBODY DESIGN. FOR EXCEPTIONAL POWER.—Heat-fo...  98777..00   \n",
+            "1  6.1-inch Super Retina XDR display with Dynamic...  65000..00   \n",
+            "2  STUNNING TITANIUM DESIGN—iPhone 16 Pro has a s...  83212..00   \n",
+            "3  Expansive 6.7-inch Super Retina XDR display wi...        NaN   \n",
+            "4  UNIBODY DESIGN. FOR EXCEPTIONAL POWER. — Heat-...  97500..00   \n",
+            "\n",
+            "  original_price  discount_percent  \\\n",
+            "0      98777..00                 0   \n",
+            "1      65000..00                 0   \n",
+            "2      83212..00                 0   \n",
+            "3            NaN                 0   \n",
+            "4      97500..00                 0   \n",
+            "\n",
+            "                                           image_url   seller_name  \\\n",
+            "0  https://m.media-amazon.com/images/I/61yXZ6sG6G...  Brand: Apple   \n",
+            "1  https://m.media-amazon.com/images/I/61+eDlSTiq...  Brand: Apple   \n",
+            "2  https://m.media-amazon.com/images/I/617ZhMUCvI...  Brand: Apple   \n",
+            "3  https://m.media-amazon.com/images/I/71oWrfCTiq...  Brand: Apple   \n",
+            "4  https://m.media-amazon.com/images/I/615szeYqyU...  Brand: Apple   \n",
+            "\n",
+            "   seller_rating  seller_reviews_count  is_verified  product_rating  \\\n",
+            "0            3.8                    40        False             3.8   \n",
+            "1            4.6                  2376        False             4.6   \n",
+            "2            4.4                    39        False             4.4   \n",
+            "3            4.6                   654        False             4.6   \n",
+            "4            4.1                    43        False             4.1   \n",
+            "\n",
+            "   reviews_count                                            reviews location  \\\n",
+            "0              0  [\"ممتاز. تجاوز التوقعات.\", \"التليفون لا يعمل و...    Egypt   \n",
+            "1              1  [\"Overall experience of the mobile phone is go...    Egypt   \n",
+            "2              1  [\"The best I phone..... It's really amazing.. ...    Egypt   \n",
+            "3              0  [\"من فضل حضرتك عايزه الفاتوره الضريبية\", \"Lief...    Egypt   \n",
+            "4              0                   [\"المنتج غير هو صحيح كوبي كوبي\"]    Egypt   \n",
+            "\n",
+            "   image  \n",
+            "0    NaN  \n",
+            "1    NaN  \n",
+            "2    NaN  \n",
+            "3    NaN  \n",
+            "4    NaN  \n"
+          ]
+        }
+      ],
+      "source": [
+        "df = df.dropna(subset=[\n",
+        "    'seller_rating',\n",
+        "    'seller_reviews_count',\n",
+        "    'product_rating'\n",
+        "])\n",
+        "print(df.head())"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3dkGLDSafX6q"
+      },
+      "source": [
+        "##  Text Cleaning\n",
+        "Cleaning text data by:\n",
+        "- Lowercasing text\n",
+        "- Removing punctuation\n",
+        "- Removing numbers\n",
+        "- Normalizing whitespace"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "collapsed": true,
+        "id": "5eYlPeS7L9Bl"
+      },
+      "outputs": [],
+      "source": [
+        "import re\n",
+        "\n",
+        "def clean_text(text):\n",
+        "    if pd.isna(text):\n",
+        "        return \"\"\n",
+        "    text = str(text).lower()\n",
+        "    text = re.sub(r'[^\\w\\s]', ' ', text)\n",
+        "    text = re.sub(r'\\d+', ' ', text)\n",
+        "    text = re.sub(r'\\s+', ' ', text).strip()\n",
+        "    return text\n",
+        "\n",
+        "df['title'] = df['title'].apply(clean_text)\n",
+        "df['description'] = df['description'].apply(clean_text)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "TLCdc8I2fdOy"
+      },
+      "source": [
+        "##  statistical summary of numerical features"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 320
+        },
+        "id": "1TlCwOR3RZt_",
+        "outputId": "1285ec04-70b7-45f4-ff8b-6f91b38e96ec"
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "summary": "{\n  \"name\": \"df[['seller_rating','discount_percent','seller_reviews_count','product_rating']]\",\n  \"rows\": 8,\n  \"fields\": [\n    {\n      \"column\": \"seller_rating\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 186.20329992670395,\n        \"min\": 0.7228986406314128,\n        \"max\": 530.0,\n        \"num_unique_values\": 8,\n        \"samples\": [\n          4.078113207547171,\n          4.3,\n          530.0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"discount_percent\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 184.9653903948641,\n        \"min\": 0.0,\n        \"max\": 530.0,\n        \"num_unique_values\": 5,\n        \"samples\": [\n          3.358490566037736,\n          59.0,\n          7.384381258046127\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"seller_reviews_count\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 50342.77275428618,\n        \"min\": 1.0,\n        \"max\": 143726.0,\n        \"num_unique_values\": 8,\n        \"samples\": [\n          1605.4849056603773,\n          54.5,\n          530.0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"product_rating\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 186.20329992670395,\n        \"min\": 0.7228986406314128,\n        \"max\": 530.0,\n        \"num_unique_values\": 8,\n        \"samples\": [\n          4.078113207547171,\n          4.3,\n          530.0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    }\n  ]\n}",
+              "type": "dataframe"
+            },
+            "text/html": [
+              "\n",
+              "  <div id=\"df-32ba5e03-4198-4bb0-8470-6a4cc3d373b5\" class=\"colab-df-container\">\n",
+              "    <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>seller_rating</th>\n",
+              "      <th>discount_percent</th>\n",
+              "      <th>seller_reviews_count</th>\n",
+              "      <th>product_rating</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>count</th>\n",
+              "      <td>530.000000</td>\n",
+              "      <td>530.000000</td>\n",
+              "      <td>530.000000</td>\n",
+              "      <td>530.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>mean</th>\n",
+              "      <td>4.078113</td>\n",
+              "      <td>3.358491</td>\n",
+              "      <td>1605.484906</td>\n",
+              "      <td>4.078113</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>std</th>\n",
+              "      <td>0.722899</td>\n",
+              "      <td>7.384381</td>\n",
+              "      <td>7938.340196</td>\n",
+              "      <td>0.722899</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>min</th>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>1.000000</td>\n",
+              "      <td>1.000000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>25%</th>\n",
+              "      <td>3.900000</td>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>10.000000</td>\n",
+              "      <td>3.900000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>50%</th>\n",
+              "      <td>4.300000</td>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>54.500000</td>\n",
+              "      <td>4.300000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>75%</th>\n",
+              "      <td>4.500000</td>\n",
+              "      <td>0.000000</td>\n",
+              "      <td>605.250000</td>\n",
+              "      <td>4.500000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>max</th>\n",
+              "      <td>5.000000</td>\n",
+              "      <td>59.000000</td>\n",
+              "      <td>143726.000000</td>\n",
+              "      <td>5.000000</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "    <div class=\"colab-df-buttons\">\n",
+              "\n",
+              "  <div class=\"colab-df-container\">\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-32ba5e03-4198-4bb0-8470-6a4cc3d373b5')\"\n",
+              "            title=\"Convert this dataframe to an interactive table.\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\">\n",
+              "    <path d=\"M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z\"/>\n",
+              "  </svg>\n",
+              "    </button>\n",
+              "\n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-buttons div {\n",
+              "      margin-bottom: 4px;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "    <script>\n",
+              "      const buttonEl =\n",
+              "        document.querySelector('#df-32ba5e03-4198-4bb0-8470-6a4cc3d373b5 button.colab-df-convert');\n",
+              "      buttonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "      async function convertToInteractive(key) {\n",
+              "        const element = document.querySelector('#df-32ba5e03-4198-4bb0-8470-6a4cc3d373b5');\n",
+              "        const dataTable =\n",
+              "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                    [key], {});\n",
+              "        if (!dataTable) return;\n",
+              "\n",
+              "        const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "          '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "          + ' to learn more about interactive tables.';\n",
+              "        element.innerHTML = '';\n",
+              "        dataTable['output_type'] = 'display_data';\n",
+              "        await google.colab.output.renderOutput(dataTable, element);\n",
+              "        const docLink = document.createElement('div');\n",
+              "        docLink.innerHTML = docLinkHtml;\n",
+              "        element.appendChild(docLink);\n",
+              "      }\n",
+              "    </script>\n",
+              "  </div>\n",
+              "\n",
+              "\n",
+              "    </div>\n",
+              "  </div>\n"
+            ],
+            "text/plain": [
+              "       seller_rating  discount_percent  seller_reviews_count  product_rating\n",
+              "count     530.000000        530.000000            530.000000      530.000000\n",
+              "mean        4.078113          3.358491           1605.484906        4.078113\n",
+              "std         0.722899          7.384381           7938.340196        0.722899\n",
+              "min         1.000000          0.000000              1.000000        1.000000\n",
+              "25%         3.900000          0.000000             10.000000        3.900000\n",
+              "50%         4.300000          0.000000             54.500000        4.300000\n",
+              "75%         4.500000          0.000000            605.250000        4.500000\n",
+              "max         5.000000         59.000000         143726.000000        5.000000"
+            ]
+          },
+          "execution_count": 19,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df[['seller_rating','discount_percent','seller_reviews_count','product_rating']].describe()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9cL9RXhok3ZU",
+        "outputId": "0016eb74-0504-4f7b-f03a-cbae3f413c66"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "['[\"ممتاز. تجاوز التوقعات.\", \"التليفون لا يعمل ودخل فى recovery mode ومبيخرجش منه وعملت طلب استبدال مكانش فيه غير استرجاع وحاليا سعر التليفون زاد ، حتى لما ترجعلى فلوسى مش هعرف اجيبه تانى\"]', '[\"Overall experience of the mobile phone is good but the phone was delivered with scratches which I think new phones should not have had any.\", \"Llegó antes de tiempo y en excelente estado\", \"Prima telefoon weer van Apple, zoals altijd.Alleen, als je deze telefoon bij Amazon koopt, zit er géén 3 maanden gratis Apple-TV bij en bij andere verkopers wel, en dat scheelt 30 euro waardoor het prijsverschil tussen Amazon en bijv Med.Markt vrijwel nihil is.Jammer dat Amazon dit niet erbij vermeld…….\"]', '[\"The best I phone..... It\\'s really amazing.. Specialy with titinum colour\", \"Camera Quality is much improved than 15 pro. The dedicated camera button gives a nice feel when clicking pictures.\", \"Iam having a battery drain issue  by the end of my working day ..while iam using data from morning7:30am  to evening 5:30pmAround 5:03 by battery remains 30% ..dear supplier kindly requesting for a replacement of the phone\"]', '[\"من فضل حضرتك عايزه الفاتوره الضريبية\", \"Lieferzeit auf den Tag genau eingehalten. Ich bin vom 14 pro max, nach einem vom Händler happy_handy andere Plattform verursachtes Service-Desaster, zurück zu Amazon als verlässlichen Händler, auf das 16 Plus umgestiegen. Es ist deutlich leichter, ich hätte nicht gedacht, dass man das so stark wahrnimmt. Einrichtung absolut easy gelaufen und dank dem A18 Chip alles sehr schnell. Mein erster Eindruck ist überzeugend von der Qualität und Performance. Was noch praktisch ist und positiv auffällt ist die zusätzliche Photo-Action Tatse und natürlich die aktuelle KI.  Grüße Tekki_Tom\"]', '[\"المنتج غير هو صحيح كوبي كوبي\"]', '[\"المنتج غير هو صحيح كوبي كوبي\"]', '[\"موبيل جميل جداً يارب يكون عندي واحد زي\", \"الله يرزقني ويرزق الجميع به\"]', '[\"المنتج غير هو صحيح كوبي كوبي\"]', '[\"مفيش فرق كبير بينه و بين ١٢ الموجود معايا من اكتر من خمس سنين.. الفرق بس ان البطاريه لسه جديده\", \"جميل جدا ما شاء اللهمسكته جميله ما إني متعود علي أندرويد بشاشة اكبر\", \"Great value for money\"]', '[\"موبيل جميل جداً يارب يكون عندي واحد زي\", \"الله يرزقني ويرزق الجميع به\"]']\n",
+            "object\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "print(df['reviews'].dropna().head(10).tolist())\n",
+        "print(df['reviews'].dtype)\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "UeZe29EQfsQZ"
+      },
+      "source": [
+        "## Outlier Removal\n",
+        "Removing extreme values using the 1st and 99th percentiles to reduce noise and improve model stability."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "K7nuwhlebXf3"
+      },
+      "outputs": [],
+      "source": [
+        "# remove extreme values\n",
+        "for col in ['seller_rating', 'product_rating', 'seller_reviews_count']:\n",
+        "    lower = df[col].quantile(0.01)\n",
+        "    upper = df[col].quantile(0.99)\n",
+        "    df = df[(df[col] >= lower) & (df[col] <= upper)]"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qhBFei4Ef08H"
+      },
+      "source": [
+        "##  Quartile Analysis\n",
+        "Computing Q1, median, and Q3 to understand feature distribution and define labeling thresholds."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "5vvSi3--STx4",
+        "outputId": "785fd9b4-ed6f-43f8-8b50-e1ac52f1ae91"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Q1 (25%):\n",
+            " seller_rating            3.9\n",
+            "discount_percent         0.0\n",
+            "seller_reviews_count    10.0\n",
+            "product_rating           3.9\n",
+            "Name: 0.25, dtype: float64\n",
+            "\n",
+            "Median (50%):\n",
+            " seller_rating            4.3\n",
+            "discount_percent         0.0\n",
+            "seller_reviews_count    51.5\n",
+            "product_rating           4.3\n",
+            "Name: 0.5, dtype: float64\n",
+            "\n",
+            "Q3 (75%):\n",
+            " seller_rating             4.5\n",
+            "discount_percent          0.0\n",
+            "seller_reviews_count    518.0\n",
+            "product_rating            4.5\n",
+            "Name: 0.75, dtype: float64\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Quartiles\n",
+        "q1 = df[['seller_rating','discount_percent','seller_reviews_count','product_rating']].quantile(0.25)\n",
+        "q2 = df[['seller_rating','discount_percent','seller_reviews_count','product_rating']].quantile(0.50)\n",
+        "q3 = df[['seller_rating','discount_percent','seller_reviews_count','product_rating']].quantile(0.75)\n",
+        "\n",
+        "print(\"Q1 (25%):\\n\", q1)\n",
+        "print(\"\\nMedian (50%):\\n\", q2)\n",
+        "print(\"\\nQ3 (75%):\\n\", q3)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_coOFOgCf9-y"
+      },
+      "source": [
+        "##  Threshold Definition\n",
+        "Defining cutoff values for:\n",
+        "- Low seller rating\n",
+        "- Low product rating\n",
+        "- Low review count\n",
+        "Used later for rule-based labeling."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "zsleGV5QSZH7",
+        "outputId": "b4b543fc-e911-45a7-d152-aa57f17114b2"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "High discount (fixed): 16.0\n",
+            "Thresholds used:\n",
+            "Low seller rating: 3.9\n",
+            "Low product rating: 3.9\n",
+            "low_seller_reviews_count: 51.5\n",
+            "High discount: 16.0\n"
+          ]
+        }
+      ],
+      "source": [
+        "low_seller_rating = df['seller_rating'].quantile(0.25)\n",
+        "low_product_rating = df['product_rating'].quantile(0.25)\n",
+        "\n",
+        "low_seller_reviews_count = df['seller_reviews_count'].quantile(0.50)  # median\n",
+        "non_zero_discount = df[df['discount_percent'] > 0]['discount_percent']\n",
+        "\n",
+        "high_discount = non_zero_discount.quantile(0.75)\n",
+        "\n",
+        "print(\"High discount (fixed):\", high_discount)\n",
+        "\n",
+        "print(\"Thresholds used:\")\n",
+        "print(\"Low seller rating:\", low_seller_rating)\n",
+        "print(\"Low product rating:\", low_product_rating)\n",
+        "print(\"low_seller_reviews_count:\", low_seller_reviews_count)\n",
+        "print(\"High discount:\", high_discount)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "HsWz09RngWTI"
+      },
+      "source": [
+        "## Label Generation\n",
+        "Creating a binary classification label based on multiple quality conditions:\n",
+        "- Low seller rating\n",
+        "- Low product rating\n",
+        "- Low review count\n",
+        "\n",
+        "If 2 or more conditions are met → label = 1\n",
+        "Otherwise → label = 0"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "8dX-qo-aS1qP"
+      },
+      "outputs": [],
+      "source": [
+        "def create_label(row):\n",
+        "    score = 0\n",
+        "\n",
+        "    if row['seller_rating'] < low_seller_rating:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['product_rating'] < low_product_rating:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['seller_reviews_count'] < low_seller_reviews_count:\n",
+        "        score += 1\n",
+        "\n",
+        "    if score >= 2:\n",
+        "        return 1\n",
+        "    else:\n",
+        "        return 0\n",
+        "\n",
+        "df['label'] = df.apply(create_label, axis=1)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JDCxW_-tgfSc"
+      },
+      "source": [
+        "##  Label Distribution\n",
+        "Checking class balance to understand whether dataset is imbalanced or not."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 178
+        },
+        "id": "lZvxbqcUWWGh",
+        "outputId": "94c6cda3-7d68-44b2-96bd-bc03bc32795a"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>count</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>label</th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>399</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>125</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div><br><label><b>dtype:</b> int64</label>"
+            ],
+            "text/plain": [
+              "label\n",
+              "0    399\n",
+              "1    125\n",
+              "Name: count, dtype: int64"
+            ]
+          },
+          "execution_count": 25,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df['label'].value_counts()\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "pmIs2UAlgoYz"
+      },
+      "source": [
+        "## Sample"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 990
+        },
+        "id": "qLprez08UBRt",
+        "outputId": "2e5beeb5-b3d6-42b2-ef3b-fbd522d1a90c"
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "summary": "{\n  \"name\": \"               'seller_reviews_count','product_rating','label']]\",\n  \"rows\": 10,\n  \"fields\": [\n    {\n      \"column\": \"title\",\n      \"properties\": {\n        \"dtype\": \"string\",\n        \"num_unique_values\": 9,\n        \"samples\": [\n          \"lamicall for iphone pro max case mag safe clear anti yellowing military grade drop protection scratch resistant screen lens protection stronger magnetic only for iphone pro max cover\",\n          \"cardoo smart watch x apex amoled display bluetooth calling fitness health tracker sports modes heart spo monitor ip waterproof compatible with android ios gold\",\n          \"o ozone metal watch strap compatible with redmi watch active redmi watch lite stainless steel strap bracelet for men women adjustable replacement band\"\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"seller_rating\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 0.6250333324444919,\n        \"min\": 2.8,\n        \"max\": 4.8,\n        \"num_unique_values\": 9,\n        \"samples\": [\n          4.8,\n          3.0,\n          2.8\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"discount_percent\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 5,\n        \"min\": 0,\n        \"max\": 18,\n        \"num_unique_values\": 3,\n        \"samples\": [\n          3,\n          0,\n          18\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"seller_reviews_count\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 1202,\n        \"min\": 4,\n        \"max\": 3874,\n        \"num_unique_values\": 9,\n        \"samples\": [\n          498,\n          4,\n          5\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"product_rating\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 0.6250333324444919,\n        \"min\": 2.8,\n        \"max\": 4.8,\n        \"num_unique_values\": 9,\n        \"samples\": [\n          4.8,\n          3.0,\n          2.8\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    },\n    {\n      \"column\": \"label\",\n      \"properties\": {\n        \"dtype\": \"number\",\n        \"std\": 0,\n        \"min\": 0,\n        \"max\": 1,\n        \"num_unique_values\": 2,\n        \"samples\": [\n          1,\n          0\n        ],\n        \"semantic_type\": \"\",\n        \"description\": \"\"\n      }\n    }\n  ]\n}",
+              "type": "dataframe"
+            },
+            "text/html": [
+              "\n",
+              "  <div id=\"df-fee3f208-6f42-40e1-aa82-1caaf6190ca2\" class=\"colab-df-container\">\n",
+              "    <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>title</th>\n",
+              "      <th>seller_rating</th>\n",
+              "      <th>discount_percent</th>\n",
+              "      <th>seller_reviews_count</th>\n",
+              "      <th>product_rating</th>\n",
+              "      <th>label</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>102</th>\n",
+              "      <td>xiaomi redmi note pro smartphone gb purple mp ...</td>\n",
+              "      <td>4.3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>654</td>\n",
+              "      <td>4.3</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>328</th>\n",
+              "      <td>cardoo smart watch x apex amoled display bluet...</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>4</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>664</th>\n",
+              "      <td>hp pen stylus with pressure sensitivity for wi...</td>\n",
+              "      <td>4.1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>3874</td>\n",
+              "      <td>4.1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>77</th>\n",
+              "      <td>apple ipad air inch with m chip built for appl...</td>\n",
+              "      <td>4.5</td>\n",
+              "      <td>0</td>\n",
+              "      <td>7</td>\n",
+              "      <td>4.5</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>433</th>\n",
+              "      <td>samsung</td>\n",
+              "      <td>4.2</td>\n",
+              "      <td>0</td>\n",
+              "      <td>55</td>\n",
+              "      <td>4.2</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>154</th>\n",
+              "      <td>o ozone metal watch strap compatible with redm...</td>\n",
+              "      <td>2.8</td>\n",
+              "      <td>0</td>\n",
+              "      <td>5</td>\n",
+              "      <td>2.8</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>150</th>\n",
+              "      <td>dl mobilak screen protector for xiaomi redmi p...</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>43</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>40</th>\n",
+              "      <td>lamicall for iphone pro max case mag safe clea...</td>\n",
+              "      <td>4.2</td>\n",
+              "      <td>18</td>\n",
+              "      <td>498</td>\n",
+              "      <td>4.2</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>447</th>\n",
+              "      <td>samsung</td>\n",
+              "      <td>4.8</td>\n",
+              "      <td>0</td>\n",
+              "      <td>36</td>\n",
+              "      <td>4.8</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>659</th>\n",
+              "      <td>hp omen transceptor water resistant duffel bag...</td>\n",
+              "      <td>3.9</td>\n",
+              "      <td>0</td>\n",
+              "      <td>7</td>\n",
+              "      <td>3.9</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "    <div class=\"colab-df-buttons\">\n",
+              "\n",
+              "  <div class=\"colab-df-container\">\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-fee3f208-6f42-40e1-aa82-1caaf6190ca2')\"\n",
+              "            title=\"Convert this dataframe to an interactive table.\"\n",
+              "            style=\"display:none;\">\n",
+              "\n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\" viewBox=\"0 -960 960 960\">\n",
+              "    <path d=\"M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z\"/>\n",
+              "  </svg>\n",
+              "    </button>\n",
+              "\n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-buttons div {\n",
+              "      margin-bottom: 4px;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "    <script>\n",
+              "      const buttonEl =\n",
+              "        document.querySelector('#df-fee3f208-6f42-40e1-aa82-1caaf6190ca2 button.colab-df-convert');\n",
+              "      buttonEl.style.display =\n",
+              "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "      async function convertToInteractive(key) {\n",
+              "        const element = document.querySelector('#df-fee3f208-6f42-40e1-aa82-1caaf6190ca2');\n",
+              "        const dataTable =\n",
+              "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                    [key], {});\n",
+              "        if (!dataTable) return;\n",
+              "\n",
+              "        const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "          '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "          + ' to learn more about interactive tables.';\n",
+              "        element.innerHTML = '';\n",
+              "        dataTable['output_type'] = 'display_data';\n",
+              "        await google.colab.output.renderOutput(dataTable, element);\n",
+              "        const docLink = document.createElement('div');\n",
+              "        docLink.innerHTML = docLinkHtml;\n",
+              "        element.appendChild(docLink);\n",
+              "      }\n",
+              "    </script>\n",
+              "  </div>\n",
+              "\n",
+              "\n",
+              "    </div>\n",
+              "  </div>\n"
+            ],
+            "text/plain": [
+              "                                                 title  seller_rating  \\\n",
+              "102  xiaomi redmi note pro smartphone gb purple mp ...            4.3   \n",
+              "328  cardoo smart watch x apex amoled display bluet...            3.0   \n",
+              "664  hp pen stylus with pressure sensitivity for wi...            4.1   \n",
+              "77   apple ipad air inch with m chip built for appl...            4.5   \n",
+              "433                                            samsung            4.2   \n",
+              "154  o ozone metal watch strap compatible with redm...            2.8   \n",
+              "150  dl mobilak screen protector for xiaomi redmi p...            4.0   \n",
+              "40   lamicall for iphone pro max case mag safe clea...            4.2   \n",
+              "447                                            samsung            4.8   \n",
+              "659  hp omen transceptor water resistant duffel bag...            3.9   \n",
+              "\n",
+              "     discount_percent  seller_reviews_count  product_rating  label  \n",
+              "102                 3                   654             4.3      0  \n",
+              "328                 0                     4             3.0      1  \n",
+              "664                 0                  3874             4.1      0  \n",
+              "77                  0                     7             4.5      0  \n",
+              "433                 0                    55             4.2      0  \n",
+              "154                 0                     5             2.8      1  \n",
+              "150                 0                    43             4.0      0  \n",
+              "40                 18                   498             4.2      0  \n",
+              "447                 0                    36             4.8      0  \n",
+              "659                 0                     7             3.9      0  "
+            ]
+          },
+          "execution_count": 26,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df.sample(10)[['title','seller_rating','discount_percent',\n",
+        "               'seller_reviews_count','product_rating','label']]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "taoXMiInOHaD",
+        "outputId": "c655f87a-52d6-4bde-fb8a-64f9aac15bd6"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "['id', 'source', 'label', 'category', 'title', 'description', 'price', 'original_price', 'discount_percent', 'image_url', 'seller_name', 'seller_rating', 'seller_reviews_count', 'is_verified', 'product_rating', 'reviews_count', 'reviews', 'location', 'image']\n"
+          ]
+        }
+      ],
+      "source": [
+        "print(df.columns.tolist())"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "WyYFhvkAPVTz"
+      },
+      "outputs": [],
+      "source": [
+        "df['price'] = pd.to_numeric(df['price'], errors='coerce')\n",
+        "df['original_price'] = pd.to_numeric(df['original_price'], errors='coerce')\n",
+        "\n",
+        "# price features\n",
+        "df['price_diff'] = df['original_price'] - df['price']  # ← غيرت هنا\n",
+        "df['real_discount'] = (df['price_diff'] / df['original_price']) * 100\n",
+        "df['real_discount'] = df['real_discount'].fillna(0)\n",
+        "\n",
+        "# reviews processing\n",
+        "df['reviews'] = df['reviews'].fillna(\"\")\n",
+        "df['reviews'] = df['reviews'].apply(clean_text)\n",
+        "\n",
+        "df['review_len'] = df['reviews'].apply(lambda x: len(x.split()))\n",
+        "\n",
+        "# suspicious words\n",
+        "suspicious_words = ['fake','bad','poor','worst','scam','مش','سيء','وحش']\n",
+        "\n",
+        "def count_suspicious(text):\n",
+        "    return sum(word in text for word in suspicious_words)\n",
+        "\n",
+        "df['suspicious_score'] = df['reviews'].apply(count_suspicious)\n",
+        "\n",
+        "# verified\n",
+        "df['is_verified'] = df['is_verified'].apply(lambda x: 1 if x == True else 0)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "wHz9-J5V8GEz"
+      },
+      "outputs": [],
+      "source": [
+        "df['combined_text'] = df['title'] + \" \" + df['description'] + \" \" + df['reviews']"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "XxQC7FtY8GCB"
+      },
+      "outputs": [],
+      "source": [
+        "def create_label(row):\n",
+        "    score = 0\n",
+        "\n",
+        "    if row['seller_rating'] < low_seller_rating:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['product_rating'] < low_product_rating:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['seller_reviews_count'] < low_seller_reviews_count:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['real_discount'] > high_discount:\n",
+        "        score += 1\n",
+        "\n",
+        "    if row['suspicious_score'] > 0:\n",
+        "        score += 1\n",
+        "\n",
+        "    return 1 if score >= 2 else 0\n",
+        "\n",
+        "df['label'] = df.apply(create_label, axis=1)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "AsvF5pGe8F95",
+        "outputId": "b007fd94-9b4d-4629-f0ca-1d29d91800e3"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "عدد الصور: 672\n",
+            "عدد الصفوف: 524\n"
+          ]
+        }
+      ],
+      "source": [
+        "from openpyxl import load_workbook\n",
+        "import os\n",
+        "\n",
+        "wb = load_workbook('/content/drive/MyDrive/Trusted & Fake.xlsx')\n",
+        "ws = wb.active\n",
+        "\n",
+        "os.makedirs(\"images\", exist_ok=True)\n",
+        "\n",
+        "image_paths = []\n",
+        "\n",
+        "for i, image in enumerate(ws._images):\n",
+        "    img = image._data()\n",
+        "    path = f\"images/img_{i}.png\"\n",
+        "\n",
+        "    with open(path, \"wb\") as f:\n",
+        "        f.write(img)\n",
+        "\n",
+        "    image_paths.append(path)\n",
+        "\n",
+        "print(f\"عدد الصور: {len(image_paths)}\")\n",
+        "print(f\"عدد الصفوف: {len(df)}\")\n",
+        "\n",
+        "min_len = min(len(image_paths), len(df))\n",
+        "df = df.iloc[:min_len].copy()\n",
+        "df['image_path'] = image_paths[:min_len]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "fX2ddh6w8F33"
+      },
+      "outputs": [],
+      "source": [
+        "from tensorflow.keras.preprocessing.text import Tokenizer\n",
+        "from tensorflow.keras.preprocessing.sequence import pad_sequences\n",
+        "\n",
+        "tokenizer = Tokenizer(num_words=10000)\n",
+        "tokenizer.fit_on_texts(df['combined_text'])\n",
+        "\n",
+        "sequences = tokenizer.texts_to_sequences(df['combined_text'])\n",
+        "\n",
+        "X_text = pad_sequences(sequences, maxlen=100)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "sUxiN_qp8Fsb"
+      },
+      "outputs": [],
+      "source": [
+        "import cv2\n",
+        "import numpy as np\n",
+        "\n",
+        "def load_image(path):\n",
+        "    img = cv2.imread(path)\n",
+        "    img = cv2.resize(img, (224,224))\n",
+        "    img = img / 255.0\n",
+        "    return img\n",
+        "\n",
+        "X_images = np.array([load_image(p) for p in df['image_path']])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "NcmOzTA98E4l"
+      },
+      "outputs": [],
+      "source": [
+        "y = df['label'].values"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "UQE8wEnU8kRK"
+      },
+      "outputs": [],
+      "source": [
+        "from sklearn.model_selection import train_test_split\n",
+        "\n",
+        "X_text_train, X_text_test, X_img_train, X_img_test, y_train, y_test = train_test_split(\n",
+        "    X_text, X_images, y, test_size=0.2, random_state=42\n",
+        ")"
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
