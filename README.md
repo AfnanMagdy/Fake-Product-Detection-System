@@ -54,7 +54,7 @@ We will collect:
 ---
 
 ### 3. Image Model
-  - ResNet18
+  -EfficientNetB0
 ---
 
 ### 4. Fusion Model
