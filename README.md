@@ -49,17 +49,12 @@ We will collect:
 ---
 
 ### 2. Text Model
-- TF-IDF + Logistic Regression (baseline)
-- Optional: BERT model for better performance
-
+- Transformer
+- LSTM
 ---
 
 ### 3. Image Model
-- Use pretrained CNN:
   - ResNet18
-  - MobileNet
-- Extract image features (no training from scratch)
-
 ---
 
 ### 4. Fusion Model
